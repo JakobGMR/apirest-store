@@ -1,0 +1,22 @@
+import jwt from 'jsonwebtoken';
+import { envs } from './envs';
+
+const JWT_SEED = envs.JWT_SEED;
+
+export class JwtAdapter{
+    // DI? Si no hay, generalmente se hacen métodos estáticos
+
+    static generateToken(payload: any, duration: string | any = '2h'){
+        return new Promise(resolve => {
+            jwt.sign(payload, JWT_SEED, {expiresIn: duration}, (err, token)=>{
+                if(err) return resolve(null);
+
+                resolve(token);
+            })
+        });
+    }
+
+    static validateToken(token: string){
+        throw new Error('Not implemented');
+    }
+}
